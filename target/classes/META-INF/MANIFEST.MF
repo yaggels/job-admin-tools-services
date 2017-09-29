@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: job-admin-tools-services
+Implementation-Version: 0.0.1
+Built-By: yaggels
+Implementation-Vendor-Id: com.sapient
+Build-Jdk: 1.8.0_144
+Implementation-URL: http://projects.spring.io/spring-boot/job-admin-to
+ ols-services/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
