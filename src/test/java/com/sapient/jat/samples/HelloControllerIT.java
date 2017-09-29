@@ -1,4 +1,4 @@
-package com.sapient.samples;
+package com.sapient.jat.samples;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
