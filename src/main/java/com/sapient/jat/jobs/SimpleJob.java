@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 /**
  * <p>
- * A simple job configured in Spring  
+ * A simple job configured in Spring.
+ * Just prints details about the job and when is the next schedule.  
  * </p>
  * @author Johnson Chow
  *
