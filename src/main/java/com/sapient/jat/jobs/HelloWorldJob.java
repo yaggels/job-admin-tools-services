@@ -17,10 +17,15 @@ import org.slf4j.LoggerFactory;
 public class HelloWorldJob implements Job {
 	
 	private static Logger logger = LoggerFactory.getLogger(HelloWorldJob.class);
+	
+	private String greeting;
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		logger.info("Hello there!");
+		logger.info(greeting);
 	}
 
+	public void setGreeting(String greeting) {
+		this.greeting = greeting;
+	}
 }

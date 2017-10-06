@@ -1,7 +1,7 @@
 package com.sapient.jat.schedulers;
 
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
-import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
@@ -18,7 +17,6 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.sapient.jat.config.AutoWiringSpringBeanJobFactory;
 import com.sapient.jat.jobs.HelloWorldJob;
-import com.sapient.jat.jobs.SimpleJob;
 
 @Configuration
 public class SimpleScheduler {
@@ -38,67 +36,42 @@ public class SimpleScheduler {
 	}
 
 	@Bean
-	public SchedulerFactoryBean scheduler(Trigger cronTrigger, Trigger trigger) {
+	public SchedulerFactoryBean scheduler(Trigger helloWorldSimpleTrigger) {
 
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setConfigLocation(new ClassPathResource("quartz.properties"));
 
 		logger.debug("Setting the Scheduler up");
 		schedulerFactory.setJobFactory(springBeanJobFactory());
-		schedulerFactory.setTriggers(cronTrigger, trigger);
+		schedulerFactory.setTriggers(helloWorldSimpleTrigger);
 		
 		return schedulerFactory;
 	}
 
-	@Bean
-	public JobDetailFactoryBean simpleJobDetail() {
-
-		JobDetailFactoryBean jobDetailFactory = new JobDetailFactoryBean();
-
-		jobDetailFactory.setJobClass(SimpleJob.class);
-		jobDetailFactory.setName("Simple_Job");
-		jobDetailFactory.setDescription("Work Simeple Job ...");
-		jobDetailFactory.setDurability(true);
-
-		return jobDetailFactory;
-	}
-	
 	@Bean
 	public JobDetailFactoryBean helloWorldJobDetail() {
 		JobDetailFactoryBean jobDetailFactory = new JobDetailFactoryBean();
 
 		jobDetailFactory.setJobClass(HelloWorldJob.class);
 		jobDetailFactory.setName("HelloWorld_Job");
-		jobDetailFactory.setDescription("Hello World Job ...");
-		jobDetailFactory.setDurability(true);
-
+		jobDetailFactory.setDescription("Job that says Hello World");
+		
+		JobDataMap jobDataMap = new JobDataMap();
+		jobDataMap.put("greeting", "Hello friend");
+		jobDetailFactory.setJobDataMap(jobDataMap);
+		
 		return jobDetailFactory;
-	}
-
-	@Bean
-	public SimpleTriggerFactoryBean trigger(JobDetail simpleJobDetail) {
-
-		SimpleTriggerFactoryBean trigger = new SimpleTriggerFactoryBean();
-		trigger.setJobDetail(simpleJobDetail);
-
-		int frequencyInSec = 10;
-		logger.info("Configuring trigger to fire every {} seconds", frequencyInSec);
-
-		trigger.setRepeatInterval(frequencyInSec * 1000);
-		trigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-		trigger.setName("Simple_Trigger_10");
-		return trigger;
 	}
 	
 	@Bean
-	public CronTriggerFactoryBean cronTrigger(JobDetail helloWorldJobDetail) {
-		CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
-		
+	public SimpleTriggerFactoryBean helloWorldSimpleTrigger(JobDetail helloWorldJobDetail) {
+
+		SimpleTriggerFactoryBean trigger = new SimpleTriggerFactoryBean();
 		trigger.setJobDetail(helloWorldJobDetail);
-		trigger.setCronExpression("0/30 0/1 * 1/1 * ? *");
-		trigger.setName("Cron_Trigger_30");
+		trigger.setRepeatInterval(10 * 1000); //10 seconds
+		trigger.setRepeatCount(6);
+		trigger.setName("HelloWorldJob_Simple_Trigger");
 		
 		return trigger;
 	}
-
 }
