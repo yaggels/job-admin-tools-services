@@ -2,6 +2,7 @@ package com.sapient.jat.schedulers;
 
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,8 @@ import com.sapient.jat.jobs.HelloWorldJob;
 @Configuration
 public class SimpleScheduler {
 
-	Logger logger = LoggerFactory.getLogger(SimpleScheduler.class);
+	private Logger logger = LoggerFactory.getLogger(SimpleScheduler.class);
+	private final String SCHEDULER_NAME = "TIMS_SCHEDULER";
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -29,8 +31,7 @@ public class SimpleScheduler {
 	@Bean
 	public SpringBeanJobFactory springBeanJobFactory() {
 		AutoWiringSpringBeanJobFactory jobFactory = new AutoWiringSpringBeanJobFactory();
-		logger.debug("Configuring Job factory");
-
+		
 		jobFactory.setApplicationContext(applicationContext);
 		return jobFactory;
 	}
@@ -43,6 +44,7 @@ public class SimpleScheduler {
 
 		logger.debug("Setting the Scheduler up");
 		schedulerFactory.setJobFactory(springBeanJobFactory());
+		schedulerFactory.setSchedulerName(SCHEDULER_NAME);
 		schedulerFactory.setTriggers(helloWorldSimpleTrigger);
 		
 		return schedulerFactory;
@@ -69,7 +71,7 @@ public class SimpleScheduler {
 		SimpleTriggerFactoryBean trigger = new SimpleTriggerFactoryBean();
 		trigger.setJobDetail(helloWorldJobDetail);
 		trigger.setRepeatInterval(10 * 1000); //10 seconds
-		trigger.setRepeatCount(6);
+		trigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		trigger.setName("HelloWorldJob_Simple_Trigger");
 		
 		return trigger;
