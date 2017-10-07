@@ -23,4 +23,21 @@ public class SchedulerInfoService {
 
 		return schedulerInfo;
 	}
+	
+	public void standby() throws SchedulerException {
+		schedulerFactoryBean.getScheduler().standby();
+	}
+	
+	public void start() throws SchedulerException {
+		schedulerFactoryBean.getScheduler().start();
+	}
+	public void shutdown() throws SchedulerException {
+		schedulerFactoryBean.getScheduler().shutdown();
+	}
+	public void pause() throws SchedulerException {
+		schedulerFactoryBean.getScheduler().pauseAll();
+	}
+	public void unpause() throws SchedulerException {
+		schedulerFactoryBean.getScheduler().resumeAll();
+	}
 }

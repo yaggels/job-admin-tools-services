@@ -42,11 +42,78 @@ public class SchedulerRestController {
 		return new ResponseEntity<>(schedulerInfoResourceAssembler.toResource(schedulerInfo), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/{id}/standby", method = RequestMethod.POST)
+	public ResponseEntity<Void> standby(@PathVariable String id) {
+		
+		HttpStatus status;
+		
+		try {
+			schedulerInfoService.standby();
+			status = HttpStatus.ACCEPTED;
+		} catch (SchedulerException e) {
+			//TODO figure out exception handling for scheduler
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<>(status);
+	}
+	
+	@RequestMapping(value = "/{id}/start", method = RequestMethod.POST)
+	public ResponseEntity<Void> start(@PathVariable String id) {
+		HttpStatus status;
+		
+		try {
+			schedulerInfoService.start();
+			status = HttpStatus.ACCEPTED;
+		} catch (SchedulerException e) {
+			//TODO figure out exception handling for scheduler
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<>(status);
+	}
+	
+	@RequestMapping(value = "/{id}/shutdown", method = RequestMethod.POST)
+	public ResponseEntity<Void> shutdown(@PathVariable String id) {
+		HttpStatus status;
+		
+		try {
+			schedulerInfoService.shutdown();
+			status = HttpStatus.ACCEPTED;
+		} catch (SchedulerException e) {
+			//TODO figure out exception handling for scheduler
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<>(status);
+	}
+	
 	@RequestMapping(value = "/{id}/pause", method = RequestMethod.POST)
 	public ResponseEntity<Void> pause(@PathVariable String id) {
+		HttpStatus status;
 		
-		logger.info("In Method to Pause");
+		try {
+			schedulerInfoService.pause();
+			status = HttpStatus.ACCEPTED;
+		} catch (SchedulerException e) {
+			//TODO figure out exception handling for scheduler
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
 		
-		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(status);
+	}
+	@RequestMapping(value = "/{id}/unpause", method = RequestMethod.POST)
+	public ResponseEntity<Void> unpause(@PathVariable String id) {
+		HttpStatus status;
+		
+		try {
+			schedulerInfoService.unpause();
+			status = HttpStatus.ACCEPTED;
+		} catch (SchedulerException e) {
+			//TODO figure out exception handling for scheduler
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<>(status);
 	}
 }
