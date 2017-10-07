@@ -1,4 +1,4 @@
-package com.sapient.jat.schedulers;
+package com.sapient.jat.config;
 
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -16,13 +16,12 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-import com.sapient.jat.config.AutoWiringSpringBeanJobFactory;
 import com.sapient.jat.jobs.HelloWorldJob;
 
 @Configuration
-public class SimpleScheduler {
+public class JATSchedulerConfigBean {
 
-	private Logger logger = LoggerFactory.getLogger(SimpleScheduler.class);
+	private Logger logger = LoggerFactory.getLogger(JATSchedulerConfigBean.class);
 	private final String SCHEDULER_NAME = "TIMS_SCHEDULER";
 
 	@Autowired
@@ -73,6 +72,7 @@ public class SimpleScheduler {
 		trigger.setRepeatInterval(10 * 1000); //10 seconds
 		trigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		trigger.setName("HelloWorldJob_Simple_Trigger");
+		//trigger.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 		
 		return trigger;
 	}

@@ -7,10 +7,9 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>java:com.sapient.application.Application</config>
 		<config>java:com.sapient.jat.application.Application</config>
 		<config>java:com.sapient.jat.jobs.SimpleJob</config>
-		<config>java:com.sapient.jat.schedulers.SimpleScheduler</config>
+		<config>java:com.sapient.jat.config.JATSchedulerConfigBean</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
