@@ -17,6 +17,8 @@ public class TriggerInfo implements Identifiable<String> {
 	private final LocalDateTime nextFireTime;
 	private final LocalDateTime previousFireTime;
 	private String status;
+	//TODO figure out how to finalize status
+	private JobInfo jobInfo;
 	
 	public TriggerInfo(String triggerKey, String description, Date endTime, Date finalFireTime, Date nextFireTime,
 			Date previousFireTime) {
@@ -64,5 +66,13 @@ public class TriggerInfo implements Identifiable<String> {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public JobInfo getJobInfo() {
+		return jobInfo;
+	}
+
+	public void setJobInfo(JobInfo jobInfo) {
+		this.jobInfo = jobInfo;
 	}
 }

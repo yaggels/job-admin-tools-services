@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.springframework.hateoas.ResourceSupport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sapient.jat.domains.JobInfo;
 import com.sapient.jat.domains.TriggerInfo;
 
 public class TriggerInfoResource extends ResourceSupport {
@@ -18,6 +19,7 @@ public class TriggerInfoResource extends ResourceSupport {
 	private final LocalDateTime nextFireTime;
 	private final LocalDateTime previousFireTime;
 	private final String status;
+	private final JobInfo jobInfo;
 	
 	public TriggerInfoResource (TriggerInfo triggerInfo) {
 		
@@ -28,6 +30,7 @@ public class TriggerInfoResource extends ResourceSupport {
 		this.nextFireTime = triggerInfo.getNextFireTime();
 		this.previousFireTime = triggerInfo.getPreviousFireTime();
 		this.status = triggerInfo.getStatus();
+		this.jobInfo = triggerInfo.getJobInfo();
 	}
 
 	@JsonProperty("id")
@@ -57,5 +60,9 @@ public class TriggerInfoResource extends ResourceSupport {
 
 	public String getStatus() {
 		return status;
+	}
+
+	public JobInfo getJobInfo() {
+		return jobInfo;
 	}
 }

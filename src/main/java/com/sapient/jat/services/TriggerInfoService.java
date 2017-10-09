@@ -5,6 +5,8 @@ import static org.quartz.impl.matchers.GroupMatcher.groupEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import com.sapient.jat.domains.JobInfo;
 import com.sapient.jat.domains.TriggerInfo;
 
 @Service
@@ -43,6 +46,13 @@ public class TriggerInfoService {
 		        Trigger trigger = getScheduler().getTrigger(triggerKey);
 		        TriggerInfo triggerInfo = new TriggerInfo(triggerKey.toString(), trigger.getDescription(), trigger.getEndTime(), trigger.getFinalFireTime(), trigger.getNextFireTime(), trigger.getPreviousFireTime());
 		        triggerInfo.setStatus(getScheduler().getTriggerState(triggerKey).toString());
+		        
+		        //Job details
+		        JobKey jobKey = trigger.getJobKey();
+		        JobDetail jobDetail = getScheduler().getJobDetail(jobKey);
+		        JobInfo jobInfo = new JobInfo(jobKey.toString(), jobDetail.getDescription());
+		        triggerInfo.setJobInfo(jobInfo);
+		        
 		        triggers.add(triggerInfo);
 		    }
 		}
