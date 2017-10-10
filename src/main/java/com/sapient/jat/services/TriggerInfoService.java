@@ -1,6 +1,10 @@
 package com.sapient.jat.services;
 
-import static org.quartz.impl.matchers.GroupMatcher.groupEquals;
+import static org.quartz.impl.matchers.GroupMatcher.*;
+import static org.quartz.TriggerBuilder.*;
+import static org.quartz.SimpleScheduleBuilder.*;
+import static org.quartz.DateBuilder.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +13,19 @@ import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
 import com.sapient.jat.domains.JobInfo;
+import com.sapient.jat.domains.ReScheduleDetail;
 import com.sapient.jat.domains.TriggerInfo;
 
 @Service
 public class TriggerInfoService {
-	
-	private static Logger logger = LoggerFactory.getLogger(TriggerInfoService.class);
 	
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
@@ -93,6 +95,20 @@ public class TriggerInfoService {
 	public void unschedule(String key) throws SchedulerException {
 		TriggerKey triggerKey = getTriggerKey(key);
 		getScheduler().unscheduleJob(triggerKey);
+	}
+	
+	public void reschedule(ReScheduleDetail reScheduleDetail) throws SchedulerException {
+		TriggerKey triggerKey = getTriggerKey(reScheduleDetail.getTriggerKey());
+		
+		SimpleTrigger trigger = (SimpleTrigger) newTrigger()
+				.withIdentity(triggerKey)
+				.startAt(todayAt(reScheduleDetail.getStartHour(), reScheduleDetail.getStartMin(), reScheduleDetail.getStartSec()))
+				.endAt(todayAt(reScheduleDetail.getEndHour(), reScheduleDetail.getEndMin(), reScheduleDetail.getEndSec()))
+				.withDescription("Test Reschedule")
+				.withSchedule(repeatSecondlyForever())
+				.build();
+		
+		getScheduler().rescheduleJob(triggerKey, trigger);
 	}
 }
  

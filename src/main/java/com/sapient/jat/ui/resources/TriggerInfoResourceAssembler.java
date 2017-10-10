@@ -27,6 +27,7 @@ public class TriggerInfoResourceAssembler extends ResourceAssemblerBaseClass<Tri
 		resource.add(linkTo(methodOn(TriggerRestController.class).resume(resource.getTriggerId())).withRel("resume"));
 		resource.add(linkTo(methodOn(TriggerRestController.class).runNow(resource.getTriggerId())).withRel("runnow"));
 		resource.add(linkTo(methodOn(TriggerRestController.class).unschedule(resource.getTriggerId())).withRel("unschedule"));
+		//resource.add(linkTo(methodOn(TriggerRestController.class).reschedule(resource.getTriggerId())).withRel("reschedule"));
 
 		return resource;
 	}

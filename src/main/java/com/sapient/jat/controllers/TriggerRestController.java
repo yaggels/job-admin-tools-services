@@ -1,7 +1,6 @@
 package com.sapient.jat.controllers;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +8,14 @@ import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sapient.jat.domains.SchedulerInfo;
+import com.sapient.jat.domains.ReScheduleDetail;
 import com.sapient.jat.domains.TriggerInfo;
-import com.sapient.jat.services.SchedulerInfoService;
 import com.sapient.jat.services.TriggerInfoService;
-import com.sapient.jat.ui.resources.SchedulerInfoResource;
 import com.sapient.jat.ui.resources.TriggerInfoResource;
 import com.sapient.jat.ui.resources.TriggerInfoResourceAssembler;
 
@@ -30,7 +28,7 @@ public class TriggerRestController {
 	private TriggerInfoService triggerInfoService;
 	@Autowired
 	private TriggerInfoResourceAssembler triggerInfoResourceAssembler;
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<TriggerInfoResource>> retrieveTriggers() {	
 		
@@ -111,6 +109,18 @@ public class TriggerRestController {
 		
 		return new ResponseEntity<>(status);
 	}
-	
+	@RequestMapping(value = "/{id:.+}/reschedule", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Void> reschedule(@RequestBody ReScheduleDetail reScheduleDetail) {
+		HttpStatus status = null;
+		
+		try {
+			triggerInfoService.reschedule(reScheduleDetail);
+			status = HttpStatus.ACCEPTED;
+		} catch (SchedulerException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<>(status);
+	}
 	
 }
