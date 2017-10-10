@@ -22,8 +22,7 @@ import com.sapient.jat.jobs.HelloWorldJob;
 public class JATSchedulerConfigBean {
 
 	private Logger logger = LoggerFactory.getLogger(JATSchedulerConfigBean.class);
-	private final String SCHEDULER_NAME = "TIMS_SCHEDULER";
-
+	
 	@Autowired
 	private ApplicationContext applicationContext;
 
@@ -43,7 +42,6 @@ public class JATSchedulerConfigBean {
 
 		logger.debug("Setting the Scheduler up");
 		schedulerFactory.setJobFactory(springBeanJobFactory());
-		schedulerFactory.setSchedulerName(SCHEDULER_NAME);
 		schedulerFactory.setTriggers(helloWorldSimpleTrigger);
 		
 		return schedulerFactory;
