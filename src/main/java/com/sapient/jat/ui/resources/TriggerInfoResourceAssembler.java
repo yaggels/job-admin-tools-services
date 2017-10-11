@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 import com.sapient.jat.controllers.TriggerRestController;
 import com.sapient.jat.domains.TriggerInfo;
 
+/**
+ * Helper class to assemble the trigger info including its service links.
+ * 
+ * @author Johnson Chow
+ *
+ */
 @Component
 public class TriggerInfoResourceAssembler extends ResourceAssemblerBaseClass<TriggerInfo, TriggerInfoResource> {
 
@@ -26,8 +32,9 @@ public class TriggerInfoResourceAssembler extends ResourceAssemblerBaseClass<Tri
 		resource.add(linkTo(methodOn(TriggerRestController.class).pause(resource.getTriggerId())).withRel("pause"));
 		resource.add(linkTo(methodOn(TriggerRestController.class).resume(resource.getTriggerId())).withRel("resume"));
 		resource.add(linkTo(methodOn(TriggerRestController.class).runNow(resource.getTriggerId())).withRel("runnow"));
-		resource.add(linkTo(methodOn(TriggerRestController.class).unschedule(resource.getTriggerId())).withRel("unschedule"));
-		//resource.add(linkTo(methodOn(TriggerRestController.class).reschedule(resource.getTriggerId())).withRel("reschedule"));
+		resource.add(linkTo(methodOn(TriggerRestController.class).unschedule(resource.getTriggerId()))
+				.withRel("unschedule"));
+		// resource.add(linkTo(methodOn(TriggerRestController.class).reschedule(resource.getTriggerId())).withRel("reschedule"));
 
 		return resource;
 	}

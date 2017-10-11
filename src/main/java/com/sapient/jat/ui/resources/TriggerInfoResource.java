@@ -10,8 +10,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sapient.jat.domains.JobInfo;
 import com.sapient.jat.domains.TriggerInfo;
 
+/**
+ * Resource counterpart to the TriggerInfo domain objects. Helps separate the
+ * inner service to the UI layer.
+ * 
+ * @author Johnson Chow
+ *
+ */
 public class TriggerInfoResource extends ResourceSupport {
-	
+
 	private final String triggerId;
 	private final String description;
 	private final LocalDateTime endTime;
@@ -20,11 +27,16 @@ public class TriggerInfoResource extends ResourceSupport {
 	private final LocalDateTime previousFireTime;
 	private final String status;
 	private final JobInfo jobInfo;
-	
-	public TriggerInfoResource (TriggerInfo triggerInfo) {
-		
+
+	/**
+	 * Default constructor
+	 * 
+	 * @param triggerInfo
+	 */
+	public TriggerInfoResource(TriggerInfo triggerInfo) {
+
 		this.triggerId = triggerInfo.getId();
-		this.description = triggerInfo.getDescription(); 
+		this.description = triggerInfo.getDescription();
 		this.endTime = triggerInfo.getEndTime();
 		this.finalFireTime = triggerInfo.getFinalFireTime();
 		this.nextFireTime = triggerInfo.getNextFireTime();
@@ -38,30 +50,62 @@ public class TriggerInfoResource extends ResourceSupport {
 		return triggerId;
 	}
 
+	/**
+	 * 
+	 * @return the desciption of the trigger
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * 
+	 * @return <code>LocalDateTime</code> representation of the end time of the
+	 *         trigger.
+	 */
 	public LocalDateTime getEndTime() {
 		return endTime;
 	}
 
+	/**
+	 * 
+	 * @return <code>LocalDateTime</code> representation of the final fire time of
+	 *         the trigger.
+	 */
 	public LocalDateTime getFinalFireTime() {
 		return finalFireTime;
 	}
 
+	/**
+	 * 
+	 * @return <code>LocalDateTime</code> representation of the next schedule time
+	 *         of the trigger.
+	 */
 	public LocalDateTime getNextFireTime() {
 		return nextFireTime;
 	}
 
+	/**
+	 * 
+	 * @return <code>LocalDateTime</code> representation of the previous schedule
+	 *         time of the trigger.
+	 */
 	public LocalDateTime getPreviousFireTime() {
 		return previousFireTime;
 	}
 
+	/**
+	 * 
+	 * @return status of the trigger
+	 */
 	public String getStatus() {
 		return status;
 	}
 
+	/**
+	 * 
+	 * @return job details.
+	 */
 	public JobInfo getJobInfo() {
 		return jobInfo;
 	}

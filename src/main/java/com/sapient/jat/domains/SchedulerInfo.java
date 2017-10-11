@@ -2,35 +2,61 @@ package com.sapient.jat.domains;
 
 import org.springframework.hateoas.Identifiable;
 
+/**
+ * Scheduler Information POJO that implements the Spring HATEOS Identifiable
+ * interface. This helps lay hypermedia controls.
+ * 
+ * @author Johnson Chow
+ *
+ */
 public class SchedulerInfo implements Identifiable<String> {
-	
+
 	private final String name;
 	private final boolean isInStandbyMode;
 	private final boolean isStarted;
 	private final boolean isShutdown;
-	
-	public SchedulerInfo(String name, boolean isInStandbyMode, boolean isStarted,
-			boolean isShutdown) {
-		
+
+	/**
+	 * Default constructor
+	 * 
+	 * @param name
+	 * @param isInStandbyMode
+	 * @param isStarted
+	 * @param isShutdown
+	 */
+	public SchedulerInfo(String name, boolean isInStandbyMode, boolean isStarted, boolean isShutdown) {
+
 		this.name = name;
 		this.isInStandbyMode = isInStandbyMode;
 		this.isStarted = isStarted;
 		this.isShutdown = isShutdown;
 	}
-	
+
 	@Override
 	public String getId() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @return a boolean to know if the scheduler in in standby mode.
+	 */
 	public boolean isInStandbyMode() {
 		return isInStandbyMode;
 	}
 
+	/**
+	 * 
+	 * @return a boolean to know if the scheduler is started.
+	 */
 	public boolean isStarted() {
 		return isStarted;
 	}
 
+	/**
+	 * 
+	 * @return a boolean to know if the scheduler has been shutdown.
+	 */
 	public boolean isShutdown() {
 		return isShutdown;
 	}

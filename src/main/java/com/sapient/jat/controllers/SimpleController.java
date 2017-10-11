@@ -18,6 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 
+ * Simple REST UI controller to prove how to display existing jobs.
+ * 
+ * @author Johnson Chow
+ *
+ */
 @RestController
 public class SimpleController {
 
@@ -33,20 +40,19 @@ public class SimpleController {
 		try {
 			for (String groupName : scheduler.getJobGroupNames()) {
 
-				 for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
+				for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
 
-				  String jobName = jobKey.getName();
-				  String jobGroup = jobKey.getGroup();
+					String jobName = jobKey.getName();
+					String jobGroup = jobKey.getGroup();
 
-				  //get job's trigger
-				  List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey);
-				  Date nextFireTime = triggers.get(0).getNextFireTime(); 
+					// get job's trigger
+					List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey);
+					Date nextFireTime = triggers.get(0).getNextFireTime();
 
-				    jobDetails.add("[jobName] : " + jobName + " [groupName] : "
-				        + jobGroup + " - " + nextFireTime);
-				  }
-
+					jobDetails.add("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - " + nextFireTime);
 				}
+
+			}
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class HelloWorldJob implements Job {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(HelloWorldJob.class);
-	
+
 	private String greeting;
 
 	@Override
@@ -25,6 +25,11 @@ public class HelloWorldJob implements Job {
 		logger.info(greeting);
 	}
 
+	/**
+	 * Registers the greeting to be printed out when the job executes.
+	 * 
+	 * @param greeting
+	 */
 	public void setGreeting(String greeting) {
 		this.greeting = greeting;
 	}

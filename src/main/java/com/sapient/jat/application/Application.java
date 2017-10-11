@@ -15,39 +15,32 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * Main boot application
+ * 
+ * @author Johnson Chow
+ *
+ */
 @SpringBootApplication
-@ComponentScan(basePackages= {"com.sapient.jat"})
+@ComponentScan(basePackages = { "com.sapient.jat" })
 @EnableScheduling
 public class Application {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-    
-    /*
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-        return args -> {
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
 
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-
-        };
-    }
-    */
-    
-    @Bean
+	/**
+	 * Defines data source
+	 * 
+	 * @return an embedded Tomcast Server that defined a JNDI data source
+	 */
+	@Bean
 	public TomcatEmbeddedServletContainerFactory tomcatFactory() {
 		return new TomcatEmbeddedServletContainerFactory() {
 
 			@Override
-			protected TomcatEmbeddedServletContainer getTomcatEmbeddedServletContainer(
-					Tomcat tomcat) {
+			protected TomcatEmbeddedServletContainer getTomcatEmbeddedServletContainer(Tomcat tomcat) {
 				tomcat.enableNaming();
 				return super.getTomcatEmbeddedServletContainer(tomcat);
 			}
@@ -68,15 +61,20 @@ public class Application {
 		};
 	}
 
-	@Bean(destroyMethod="")
+	/**
+	 * Registers the datasource into the JNDI
+	 * 
+	 * @return the datasource registered.
+	 * @throws IllegalArgumentException
+	 * @throws NamingException
+	 *             when name cannot be registered in JNDI
+	 */
+	@Bean(destroyMethod = "")
 	public DataSource jndiDataSource() throws IllegalArgumentException, NamingException {
 		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
 		bean.setJndiName("java:comp/env/jdbc/myQuartzDS");
 		bean.setProxyInterface(DataSource.class);
-		//bean.setLookupOnStartup(false);
 		bean.afterPropertiesSet();
-		return (DataSource)bean.getObject();
+		return (DataSource) bean.getObject();
 	}
-	
-
 }
